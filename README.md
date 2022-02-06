@@ -93,3 +93,5 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - json (enabled by default - don't turn it off)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
 - xml (enabled by default - don't turn it off)
+
+The full requirements are explained here: https://codeigniter.com/user_guide/intro/requirements.html. For this app there is no need for database setup or configuration
