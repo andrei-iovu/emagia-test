@@ -26,6 +26,16 @@ The user guide corresponding to this version of the framework can be found
 
 `vendor/bin/phpunit --verbose tests/_support/Business/` - for running written unit tests
 
+## Affected code locations
+
+`app/Business/*`
+
+`app/Controllers/Home.php`
+
+`app/Views/battle.php`
+
+`tests/_support/Business/*`
+
 ## Setup
 
 Copy `env` to `.env` and tailor for your app, specifically the baseURL
