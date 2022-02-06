@@ -16,12 +16,15 @@ The user guide corresponding to this version of the framework can be found
 
 ## Installation & updates
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+`git clone https://github.com/andrei-iovu/emagia-test.git`
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+`cd emagia-test`
+
+`composer update`
+
+`chmod -R 777 writable/cache/`
+
+`vendor/bin/phpunit --verbose tests/_support/Business/` - for running written unit tests
 
 ## Setup
 
@@ -39,25 +42,54 @@ framework are exposed.
 
 **Please** read the user guide for a better explanation of how CI4 works!
 
-## Repository Management
+## Sample of an nginx vhost, on a local dev enviroment
 
-We use Github issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+```
+server {
+    listen 80;
+    listen [::]:80;
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+    server_name test-emagia.example.ro;
+
+    root /shared/projects/emagia-test/public;
+    index index.php index.html index.htm;
+
+    location = /robots.txt {access_log off; log_not_found off;}
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location ~ /\. {deny all; access_log off; log_not_found off;}
+
+    location / {
+        try_files $uri $uri/ /index.php$is_args$args;
+    }
+
+    location ~ [^/]\.php(/|$) {
+        fastcgi_split_path_info ^(.+?\.php)(/.*)$;
+        fastcgi_pass php-fpm:9000;
+        fastcgi_index index.php;
+        include fastcgi_params;
+        fastcgi_param SCRIPT_FILENAME $realpath_root$fastcgi_script_name;
+    }
+
+    error_page 404 /index.php;
+
+    # deny access to hidden files such as .htaccess
+    location ~ /\. {
+        deny all;
+    }
+}
+```
+The app is fully functional by its root, either from an nginx vhost (from the sample above it'll be: http://test-emagia.example.ro) or from a php local webserver.
 
 ## Server Requirements
 
-PHP version 7.2 or higher is required, with the following extensions installed:
+PHP version 7.4 or higher is required, with the following extensions installed:
 
+- [mbstring](http://php.net/manual/en/mbstring.installation.php)
 - [intl](http://php.net/manual/en/intl.requirements.php)
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
 
 Additionally, make sure that the following extensions are enabled in your PHP:
 
 - json (enabled by default - don't turn it off)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
 - xml (enabled by default - don't turn it off)
