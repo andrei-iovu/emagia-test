@@ -100,6 +100,7 @@ PHP version 7.4 or higher is required, with the following extensions installed:
 
 Additionally, make sure that the following extensions are enabled in your PHP:
 
+- short open tags - enabled
 - json (enabled by default - don't turn it off)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php)
 - xml (enabled by default - don't turn it off)
